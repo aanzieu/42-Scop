@@ -6,7 +6,7 @@
 /*   By: aanzieu <aanzieu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 10:59:17 by aanzieu           #+#    #+#             */
-/*   Updated: 2018/06/11 10:51:51 by aanzieu          ###   ########.fr       */
+/*   Updated: 2018/06/11 15:12:29 by aanzieu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,6 @@
 
 # define BUFFER_SIZE 128
 
-GLuint loadshaders(const char * vertex_file_path, const char * fragment_file_path);
+GLuint loadshaders();
 
 #endif

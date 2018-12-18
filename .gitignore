@@ -1,4 +1,4 @@
-addsrc.txt
 Scope42.code-workspace
 bin/Scop
 obj/
+.DS_Store

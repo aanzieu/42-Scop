@@ -1,8 +1,20 @@
-#version 400 core
+#version 410 core
 
-layout(location = 0) in vec3 vertexPosition_modelspace;
+layout (location = 0) in vec3   vPosition;
+layout (location = 1) in vec3   aColor;
+layout (location = 2) in vec2   vTexCoord;
+layout (location = 3) in vec3   vNormal;
 
-void main(){
-    gl_Position.xyz = vertexPosition_modelspace; 
-    gl_Position.w = 1.0; 
+uniform mat4                    ModelMatrix;
+uniform mat4                    ProjectionMatrix;
+uniform mat4                    ViewMatrix;
+
+out vec2                        TexCoord;
+out vec3                        ourColor;
+
+void main()
+{
+    gl_Position = ProjectionMatrix * ViewMatrix * ModelMatrix * vec4(vPosition, 1);
+    TexCoord = vTexCoord;
+    ourColor = aColor;
 }

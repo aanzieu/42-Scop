@@ -6,7 +6,7 @@
 /*   By: aanzieu <aanzieu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 10:54:57 by aanzieu           #+#    #+#             */
-/*   Updated: 2018/12/12 07:59:07 by aanzieu          ###   ########.fr       */
+/*   Updated: 2018/12/18 16:57:33 by aanzieu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int				display_usage();
 void			handle_keys_moov(t_glenv *tmp_master, int button,
 				float i[3]);
 void			handle_keys_options(t_glenv *tmp_master, int button,
-				float i[3]);
+				GLFWwindow *window);
 
 /*
 ** Vertix set

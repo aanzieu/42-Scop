@@ -6,15 +6,14 @@
 /*   By: aanzieu <aanzieu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 15:59:20 by aanzieu           #+#    #+#             */
-/*   Updated: 2018/12/18 16:18:29 by aanzieu          ###   ########.fr       */
+/*   Updated: 2018/12/18 16:57:56 by aanzieu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/scop.h"
 
-void	handle_keys_options(t_glenv *tmp_master, int button, float i[3])
+void	handle_keys_options(t_glenv *tmp_master, int button, GLFWwindow *window)
 {
-	(void)i;
 	if (button == GLFW_KEY_T)
 		tmp_master->texturing = !tmp_master->texturing;
 	else if (button == GLFW_KEY_R)
@@ -27,6 +26,8 @@ void	handle_keys_options(t_glenv *tmp_master, int button, float i[3])
 		tmp_master->rotate = !tmp_master->rotate;
 		tmp_master->mouse_mov = !tmp_master->mouse_mov;
 	}
+	if (button == GLFW_KEY_ESCAPE)
+		glfwSetWindowShouldClose(window, 1);
 }
 
 void	handle_keys_moov2(t_glenv *tmp_master, int button, float i[3])

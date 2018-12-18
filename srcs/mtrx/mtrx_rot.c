@@ -6,7 +6,7 @@
 /*   By: aanzieu <aanzieu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 12:42:09 by aanzieu           #+#    #+#             */
-/*   Updated: 2018/12/18 16:05:43 by aanzieu          ###   ########.fr       */
+/*   Updated: 2018/12/18 17:15:36 by aanzieu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ GLfloat	*mat4_rotate_x(GLfloat *dest, GLfloat amount)
 		return (mat4_clone(rotation));
 	dest = mat4_mult(dest, dest, rotation);
 	free(rotation);
-	return(dest);
+	return (dest);
 }
 
 GLfloat	*mat4_rotate_y(GLfloat *dest, GLfloat amount)
@@ -41,7 +41,7 @@ GLfloat	*mat4_rotate_y(GLfloat *dest, GLfloat amount)
 		return (mat4_clone(rotation));
 	dest = mat4_mult(dest, dest, rotation);
 	free(rotation);
-	return (dest);//mat4_mult(dest, dest, rotation));
+	return (dest);
 }
 
 GLfloat	*mat4_rotate_z(GLfloat *dest, GLfloat amount)
@@ -57,13 +57,13 @@ GLfloat	*mat4_rotate_z(GLfloat *dest, GLfloat amount)
 		return (mat4_clone(rotation));
 	dest = mat4_mult(dest, dest, rotation);
 	free(rotation);
-	return (dest);//mat4_mult(dest, dest, rotation));
+	return (dest);
 }
 
 GLfloat	*mat4_translate(GLfloat *dest, GLfloat amount[3])
 {
 	GLfloat	*translation;
-	
+
 	translation = mat4();
 	translation[12] = amount[0];
 	translation[13] = amount[1];
@@ -72,5 +72,5 @@ GLfloat	*mat4_translate(GLfloat *dest, GLfloat amount[3])
 		return (mat4_clone(translation));
 	dest = mat4_mult(dest, dest, translation);
 	free(translation);
-	return (dest);//mat4_mult(dest, dest, rotation));
+	return (dest);
 }

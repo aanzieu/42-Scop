@@ -6,7 +6,7 @@
 /*   By: aanzieu <aanzieu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/13 14:53:08 by aanzieu           #+#    #+#             */
-/*   Updated: 2018/12/18 16:19:08 by aanzieu          ###   ########.fr       */
+/*   Updated: 2018/12/18 16:57:47 by aanzieu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,14 @@ void		handle_keys(GLFWwindow *window, int button, int scancode,
 	tmp_master = (t_glenv *)(glfwGetWindowUserPointer(window));
 	if (action == GLFW_PRESS)
 	{
-		if (button == GLFW_KEY_ESCAPE)
-			glfwSetWindowShouldClose(window, 1);
-		else if (button == GLFW_KEY_SPACE)
+		if (button == GLFW_KEY_SPACE)
 		{
 			tmp_master->polygon_mode
 				? glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
 				: glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			tmp_master->polygon_mode = !tmp_master->polygon_mode;
 		}
-		handle_keys_options(tmp_master, button, i);
+		handle_keys_options(tmp_master, button, window);
 		if (tmp_master->rotate)
 			return ;
 		handle_keys_moov(tmp_master, button, i);

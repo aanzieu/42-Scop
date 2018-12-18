@@ -6,7 +6,7 @@
 /*   By: aanzieu <aanzieu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 15:31:31 by aanzieu           #+#    #+#             */
-/*   Updated: 2018/12/18 12:52:46 by aanzieu          ###   ########.fr       */
+/*   Updated: 2018/12/18 17:14:31 by aanzieu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ GLfloat			*mat4_mult(GLfloat *dest, GLfloat *left, GLfloat *right)
 		return (mat4_clone(final_matrix));
 	memcpy(dest, final_matrix, sizeof(GLfloat) * 16);
 	free(final_matrix);
-	// free(right);
 	return (dest);
 }
 
@@ -78,7 +77,7 @@ GLfloat			*mat4_scale(GLfloat *dest, float amount)
 		return (mat4_clone(scaling));
 	dest = mat4_mult(dest, dest, scaling);
 	free(scaling);
-	return (dest);//mat4_mult(dest, dest, rotation));
+	return (dest);
 }
 
 GLfloat			*mat4_perspective(float fov, float aspect, float n, float f)

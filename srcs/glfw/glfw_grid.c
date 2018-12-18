@@ -6,7 +6,7 @@
 /*   By: aanzieu <aanzieu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/20 17:04:25 by aanzieu           #+#    #+#             */
-/*   Updated: 2018/12/12 08:56:36 by aanzieu          ###   ########.fr       */
+/*   Updated: 2018/12/18 16:52:48 by aanzieu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void		active_texture(t_glenv *master)
 	}
 }
 
-
 void		glfw_get_uniforms(t_glenv *master)
 {
 	master->bmp_data = load_texture(master);
@@ -60,6 +59,7 @@ void		glfw_get_uniforms(t_glenv *master)
 			glGetAttribLocation(master->shader_program, "vTexCoord"),
 			glGetAttribLocation(master->shader_program, "vPosition"),
 			glGetAttribLocation(master->shader_program, "vNormal"));
-	master->parser->cloc = glGetAttribLocation(master->shader_program, "aColor");
+	master->parser->cloc = glGetAttribLocation(master->shader_program,
+			"aColor");
 	glEnable(GL_DEPTH_TEST);
 }

@@ -6,7 +6,7 @@
 /*   By: aanzieu <aanzieu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/20 16:59:44 by aanzieu           #+#    #+#             */
-/*   Updated: 2018/12/18 16:16:31 by aanzieu          ###   ########.fr       */
+/*   Updated: 2018/12/18 16:59:41 by aanzieu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,8 @@ void		glfw_render(t_glenv *master)
 	while (!glfwWindowShouldClose(master->win))
 	{
 		update_texture_transition(master);
-		if (!master->rotate) {
+		if (!master->rotate)
 			master->model = mat4_rotate_y(master->model, 0.01f);
-		}
 		glUniformMatrix4fv(master->uniform.projection_matrix, 1, GL_FALSE,
 				master->projection);
 		glUniformMatrix4fv(master->uniform.model_matrix, 1, GL_FALSE,

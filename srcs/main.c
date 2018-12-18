@@ -6,121 +6,86 @@
 /*   By: aanzieu <aanzieu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 11:39:31 by aanzieu           #+#    #+#             */
-/*   Updated: 2018/06/11 16:32:40 by aanzieu          ###   ########.fr       */
+/*   Updated: 2018/12/18 16:13:47 by aanzieu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../includes/scop.h"
-// # include "../frameworks/SDL2.framework/Headers/SDL.h"
-// # include "../frameworks/glew/include/GL/glew.h"
-// # include "../frameworks/glfw/include/GLFW/glfw3.h"
+#include "../includes/scop.h"
+#include <stdlib.h>
+#include <time.h>
 
-
-
-int main(int argc, char **argv)
+static void		check_arg(int ac, char **av, t_glenv *master)
 {
-    (void) argc;
-    (void) argv;
-    if(!glfwInit())
-    {
-        fprintf( stderr, "Failed to initialize GLFW\n" );
-        return -1;
-    }
+	srand((unsigned int)time(NULL));
+	master->mouse_pos.v[0] = 1.0f;
+	master->mouse_pos.v[1] = 1.0f;
+	master->polygon_mode = 0;
+	master->mouse_mov = 0;
+	master->texturing = 0;
+	master->rotate = 0;
+	if (ac == 2)
+	{
+		asprintf(&master->file_obj, "scenes/%s/%s.obj", av[1], av[1]);
+		asprintf(&master->file_bmp, "scenes/wood.bmp");
+	}
+	else if (ac == 3)
+	{
+		master->file_obj = av[1];
+		master->file_bmp = av[2];
+	}
+}
 
-   	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    
-    // Ouvre une fenêtre et crée son contexte OpenGL
-    GLFWwindow* window; // (Dans le code joint, cette variable est globale)
+void			glfw_delete_buffer(t_obj *obj)
+{
+	if (obj->vbo)
+		glDeleteBuffers(1, &obj->vbo);
+	if (obj->vao)
+		glDeleteVertexArrays(1, &obj->vao);
+	obj->vbo = 0;
+	obj->vao = 0;
+}
 
-    // GLuint VertexArrayID; 
-    // glGenVertexArrays(1, &VertexArrayID); 
-    // glBindVertexArray(VertexArrayID);
-    // glBindVertexArray(0);
+void			glew_init(void)
+{
+	glewExperimental = 1;
+	if (glewInit() != GLEW_OK)
+	{
+		fprintf(stderr, "Failed to initialize GLEW\n");
+		exit(EXIT_FAILURE);
+	}
+}
 
-    window = glfwCreateWindow( HEIGHT, WIDTH, "Tutorial 01", NULL, NULL); 
-    if( window == NULL ){ 
-        fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" ); 
-        glfwTerminate(); 
-        return -1; 
-    }
-    
-    /*------------------*/
+void			glfw_create_program(t_glenv *master)
+{
+	GLuint vertexshader;
+	GLuint fragmentshader;
 
-   
+	vertexshader = create_shader("./shader/vertex.glsl",
+			GL_VERTEX_SHADER);
+	fragmentshader = create_shader("./shader/fragment.glsl",
+			GL_FRAGMENT_SHADER);
+	master->shader_program = loadshaders(vertexshader, fragmentshader);
+	glfw_matrix_init(master);
+	display_command();
+	glfw_render(master);
+}
 
-    /*------------------*/
+int				main(int ac, char **av)
+{
+	t_glenv master;
 
-    glfwMakeContextCurrent(window); 
-    
-    // Initialise GLEW 
-    glewExperimental= 1; // Nécessaire pour le profil core
-    if (glewInit() != GLEW_OK) { 
-        fprintf(stderr, "Failed to initialize GLEW\n"); 
-        return -1; 
-    }
-
-    glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
-
-    /*------------------*/
-
-    // Un tableau de trois vecteurs qui représentent trois sommets
-    static const GLfloat g_vertex_buffer_data[] = { 
-        -1.0f, -1.0f, 0.0f, 
-        1.0f, -1.0f, 0.0f, 
-        0.0f,  1.0f, 0.0f, 
-    };
-
-
-    GLuint VertexArrayID; 
-    glGenVertexArrays(1, &VertexArrayID); 
-    glBindVertexArray(VertexArrayID);
-    // Ceci identifiera notre tampon de sommets
-    GLuint vertexbuffer;
-    // Génère un tampon et place l'identifiant dans 'vertexbuffer'
-    glGenBuffers(1, &vertexbuffer); 
-    // Les commandes suivantes vont parler de notre tampon 'vertexbuffer'
-    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer); 
-    // Fournit les sommets à OpenGL.
-    glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-
-    /*------------------*/
-
-    dprintf(1, "%s\n", "toto");
-    
-    GLuint programID = loadshaders();
-    dprintf(1, "%u\n", programID);
-    while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwWindowShouldClose(window) == 0 )
-    {
-        glfwPollEvents();
-        glClearColor(0.09f, 0.08f, 0.15f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glUseProgram(programID);
-        // glBindVertexArray(VertexArrayID);
-        // premier tampon d'attributs : les sommets
-        glEnableVertexAttribArray(0); 
-        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer); 
-        glVertexAttribPointer( 
-            0,                  // attribut 0. Aucune raison particulière pour 0, mais cela doit correspondre au « layout » dans le shader 
-        3,                  // taille
-        GL_FLOAT,           // type 
-        GL_FALSE,           // normalisé ? 
-        0,                  // nombre d'octets séparant deux sommets dans le tampon
-        (void*)0            // décalage du tableau de tampon
-        ); 
-    
-    // Dessine le triangle ! 
-        glDrawArrays(GL_TRIANGLES, 0, 3); // Démarre à partir du sommet 0; 3 sommets au total -> 1 triangle 
-    
-        glDisableVertexAttribArray(0);
-
-        /*------------------*/
-
-        // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        // glUseProgram(programID);
-        glfwSwapBuffers(window); 
-    }
-    glfwTerminate();
+	if (ac != 2 && ac != 3)
+		return (display_usage());
+	check_arg(ac, av, &master);
+	glfw_initialisation();
+	glfw_window(&master);
+	glfw_controls(&master);
+	glew_init();
+	if ((master.parser = obj_create(master.file_obj)) != NULL)
+	{
+		master.parser->vv != NULL ? glfw_create_program(&master)
+			: dprintf(1, "not a good .obj File\n");
+		glfwTerminate();
+	}
+	return (EXIT_FAILURE);
 }

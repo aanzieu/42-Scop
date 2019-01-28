@@ -6,7 +6,7 @@
 /*   By: aanzieu <aanzieu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/20 17:14:18 by aanzieu           #+#    #+#             */
-/*   Updated: 2018/12/18 17:14:03 by aanzieu          ###   ########.fr       */
+/*   Updated: 2019/01/15 16:02:01 by aanzieu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void				glfw_matrix_init(t_glenv *master)
 	master->model = mat4();
 	find_center_parse(master);
 	master->projection = mat4_perspective(deg_to_rad(60.0f),
-			(float)WIDTH / (float)HEIGHT, 0.0f, 100.0f);
+			(float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
 	master->model = mat4_mult(master->model, mat4_mult(master->model,
 				master->translation, master->rotation), master->scalling);
 }
